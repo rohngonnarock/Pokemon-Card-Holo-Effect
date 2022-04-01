@@ -1,10 +1,8 @@
 import "./App.scss";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback } from "react";
 
 function App() {
   let timeout;
-  const cardsRef = useRef(null);
-  const hoverRef = useRef(null);
 
   const mouseStart = (e) => {
     var pos = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
@@ -55,9 +53,9 @@ function App() {
   };
 
   const mouseOut = (e) => {
-    console.log("mouseout");
+    const hoverStyle = document.querySelector(".hover");
     var $card = e.target;
-    hoverRef.current.innerHTML = "";
+    hoverStyle.innerHTML = "";
 
     $card.removeAttribute("style");
     timeout = setTimeout(() => {
@@ -65,47 +63,59 @@ function App() {
     }, 2500);
   };
 
+  const mouseStartHandler = useCallback(mouseStart, []);
+
+  const mouseOutHandler = useCallback(mouseOut, []);
+
   return (
     <main id="app">
       <h1>Pokemon Card, Holo Effect</h1>
 
       <section className="cards">
         <div
-          onMouseMove={mouseStart}
-          onMouseOut={mouseOut}
+          onMouseMove={mouseStartHandler}
+          onMouseOut={mouseOutHandler}
           className="card charizard animated"
         ></div>
         <div
-          onMouseMove={mouseStart}
-          onMouseOut={mouseOut}
+          onMouseMove={mouseStartHandler}
+          onMouseOut={mouseOutHandler}
           className="card pika animated"
         ></div>
         <div
-          onMouseMove={mouseStart}
-          onMouseOut={mouseOut}
+          onMouseMove={mouseStartHandler}
+          onMouseOut={mouseOutHandler}
           className="card eevee animated"
         ></div>
         <div
-          onMouseMove={mouseStart}
-          onMouseOut={mouseOut}
+          onMouseMove={mouseStartHandler}
+          onMouseOut={mouseOutHandler}
           className="card mewtwo animated"
         ></div>
       </section>
 
-      <style ref={hoverRef} className="hover"></style>
+      <style className="hover"></style>
 
       <section className="demo">
         <div
-          onMouseMove={mouseStart}
-          onMouseOut={mouseOut}
+          onMouseMove={mouseStartHandler}
+          onMouseOut={mouseOutHandler}
           className="card"
         ></div>
         <span className="operator">+</span>
-        <div onMouseMove={mouseStart} onMouseOut={mouseOut} className="card">
+        <div
+          onMouseMove={mouseStartHandler}
+          onMouseOut={mouseOutHandler}
+          className="card"
+        >
           <span>color-dodge</span>
         </div>
         <span className="operator">+</span>
-        <div onMouseMove={mouseStart} onMouseOut={mouseOut} className="card">
+        <div
+          onMouseMove={mouseStartHandler}
+          onMouseOut={mouseOutHandler}
+          className="card"
+        >
           <span>color-dodge</span>
         </div>
       </section>
